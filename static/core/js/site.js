@@ -88,6 +88,13 @@
 
   // Video player: opens RUTUBE / YouTube / VK embeds in a dialog
   var player = document.getElementById("player");
+  if (player && !player.showModal) {
+    // old browsers without <dialog>: open the video in a new tab instead
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest && e.target.closest("[data-video]");
+      if (btn) { e.preventDefault(); window.open(btn.getAttribute("data-video-link") || btn.getAttribute("data-video"), "_blank", "noopener"); }
+    });
+  }
   if (player && player.showModal) {
     var frame = player.querySelector("[data-player-frame]");
     var close = function () { player.close(); };
